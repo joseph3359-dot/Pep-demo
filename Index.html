@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEP: Ternary > Binary</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header .tagline {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .system {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .system h3 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .binary { border-left: 5px solid #ff4444; }
+        .ternary { border-left: 5px solid #44ff44; }
+        .states {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .efficiency {
+            background: #ffd700;
+            color: #000;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .demo {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .demo h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+        .output {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .output-box {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .output-box .label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .output-box .value {
+            font-size: 1.8em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        .binary-val { color: #ff4444; }
+        .ternary-val { color: #44ff44; }
+        .share-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .share-btn:active {
+            transform: scale(0.98);
+        }
+        .info {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            border: 2px solid rgba(255,255,255,0.2);
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        .info strong {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ PEP Protocol</h1>
+            <div class="tagline">TERNARY > BINARY</div>
+            <p style="margin-top: 10px; font-size: 0.9em;">More States. More Efficient. Better Control.</p>
+        </div>
+
+        <div class="comparison">
+            <div class="system binary">
+                <h3>❌ Binary</h3>
+                <div class="states">2 States</div>
+                <div style="text-align: center; font-size: 1.5em; margin: 10px 0;">
+                    <div>1 = ON</div>
+                    <div>0 = OFF</div>
+                </div>
+            </div>
+            <div class="system ternary">
+                <h3>✅ Ternary (PEP)</h3>
+                <div class="states">11 States</div>
+                <div style="text-align: center; font-size: 1.2em; margin: 10px 0;">
+                    <div>+ = 1.0</div>
+                    <div>0 = 0.1-0.9</div>
+                    <div>- = 0.0</div>
+                </div>
+                <div class="efficiency">5.5x MORE EFFICIENT</div>
+            </div>
+        </div>
+
+        <div class="demo">
+            <h3>🔬 Live Demonstration</h3>
+            <p style="margin-bottom: 20px;">Move the slider to see how PEP creates graduated control impossible in binary:</p>
+            
+            <div class="slider-container">
+                <label>Power Level: <span id="powerValue">50</span>%</label>
+                <input type="range" id="powerSlider" min="0" max="100" value="50">
+            </div>
+
+            <div class="output">
+                <div class="output-box">
+                    <div class="label">Binary System</div>
+                    <div class="value binary-val" id="binaryOutput">1</div>
+                    <div style="font-size: 0.8em; margin-top: 5px;">ON or OFF only</div>
+                </div>
+                <div class="output-box">
+                    <div class="label">PEP Ternary</div>
+                    <div class="value ternary-val" id="ternaryOutput">0.5</div>
+                    <div style="font-size: 0.8em; margin-top: 5px;">Precise control</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px; border-left: 4px solid #2196f3;">
+                <strong>Energy Saved:</strong> <span id="energySaved" style="font-size: 1.3em; color: #1976d2; font-weight: bold;">0%</span>
+            </div>
+        </div>
+
+        <button class="share-btn" onclick="shareDemo()">📤 SHARE THIS DEMO</button>
+
+        <div class="info">
+            <strong>Why PEP is Superior:</strong><br>
+            • Binary wastes energy (device is 100% ON or OFF)<br>
+            • PEP allocates exactly what's needed (0.1 to 0.9)<br>
+            • Task-based allocation prevents resource waste<br>
+            • Runs on ANY binary device - no hardware change needed<br><br>
+            <strong>PEP = Plenary Energy Management Plan</strong><br>
+            Abstract ternary machine for optimal resource allocation.
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('powerSlider');
+        const powerValue = document.getElementById('powerValue');
+        const binaryOutput = document.getElementById('binaryOutput');
+        const ternaryOutput = document.getElementById('ternaryOutput');
+        const energySaved = document.getElementById('energySaved');
+
+        slider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            powerValue.textContent = value;
+
+            // Binary: Only ON (1) or OFF (0)
+            const binary = value >= 50 ? 1 : 0;
+            binaryOutput.textContent = binary;
+
+            // Ternary: Graduated 0.0 to 1.0
+            let ternary;
+            if (value === 0) {
+                ternary = 0.0;
+            } else if (value >= 95) {
+                ternary = 1.0;
+            } else {
+                ternary = Math.round(value / 10) / 10;
+                if (ternary < 0.1) ternary = 0.1;
+                if (ternary > 0.9) ternary = 0.9;
+            }
+            ternaryOutput.textContent = ternary.toFixed(1);
+
+            // Calculate energy saved
+            const binaryEnergy = binary * 100;
+            const ternaryEnergy = ternary * 100;
+            const saved = Math.max(0, binaryEnergy - ternaryEnergy);
+            energySaved.textContent = saved.toFixed(0) + '%';
+        });
+
+        function shareDemo() {
+            const url = window.location.href;
+            const text = "🚀 PEP Protocol: Ternary logic is 5.5x more efficient than binary! Check out this live demo showing graduated control (0.1-0.9) vs basic ON/OFF. More states = better resource management.";
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'PEP: Ternary > Binary',
+                    text: text,
+                    url: url
+                }).catch(err => console.log('Share cancelled'));
+            } else {
+                // Fallback: copy to clipboard
+                const fullText = text + '\n\n' + url;
+                navigator.clipboard.writeText(fullText).then(() => {
+                    alert('✅ Link copied to clipboard! Paste it to share.');
+                }).catch(() => {
+                    alert('Share this URL:\n' + url);
+                });
+            }
+        }
+
+        // Trigger initial calculation
+        slider.dispatchEvent(new Event('input'));
+    </script>
+</body>
+</html>
